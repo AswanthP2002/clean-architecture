@@ -1,14 +1,13 @@
 import express from 'express'
 import { Router } from 'express'
-import { Db } from 'mongodb'
 import PlayerRepository from '../../Infrastructure/Repository/PlayerRepository'
 import PlayerController from '../controllers/playercontroller'
 import PlayerUseCase from '../../Application/UseCase/PlayerUseCase'
 
-function PlayerRouter(db : Db) : Router {
+function PlayerRouter() : Router {
     const playerRouter = express.Router()
 
-    const playerRepo = new PlayerRepository(db)
+    const playerRepo = new PlayerRepository()
 
     const playerUC = new PlayerUseCase(playerRepo)
 

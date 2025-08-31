@@ -8,18 +8,31 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const mongodb_1 = require("mongodb");
-const db_uri = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017';
-const db_name = process.env.DB_NAME || 'cleandb';
-let cachedDb = null;
-const connectToDb = () => __awaiter(void 0, void 0, void 0, function* () {
-    if (cachedDb)
-        return cachedDb;
-    const client = new mongodb_1.MongoClient(db_uri);
-    yield client.connect();
-    cachedDb = client.db(db_name);
-    console.log(`Connected to ${db_name}`);
-    return cachedDb;
+const mongoose_1 = __importDefault(require("mongoose"));
+// const db_uri = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017'
+// const db_name = process.env.DB_NAME || 'cleandb'
+const dbUri = 'mongodb://127.0.0.1:27017/cleandb';
+// let cachedDb : Db | null = null
+const connectDb = () => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        yield mongoose_1.default.connect(dbUri);
+        console.log('Database connected succesfully');
+    }
+    catch (error) {
+        console.log('Error occured while connecting database', error);
+    }
 });
-exports.default = connectToDb;
+exports.default = connectDb;
+// const connectToDb = async () : Promise<Db> => {
+//     if(cachedDb) return cachedDb
+//     const client = new MongoClient(db_uri)
+//     await client.connect()
+//     cachedDb = client.db(db_name)
+//     console.log(`Connected to ${db_name}`)
+//     return cachedDb
+// }
+// export default connectToDb

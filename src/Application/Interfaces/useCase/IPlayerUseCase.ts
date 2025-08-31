@@ -1,4 +1,3 @@
-import Player from "../../../Domain/Entities/player";
 import CardDTO from "../../DTOs/cardDto";
 import CreateCardDto from "../../DTOs/createCardDto";
 

@@ -8,7 +8,7 @@ export default class PlayerUseCase implements IPlayerUseCase {
     constructor(private readonly _repository : IPlayerRepo){}
     public mapToCardDto(playerCard : Player) : CardDTO {
         return {
-            id:playerCard.id,
+            id:playerCard.id, //made Player id optional to avoid empty string assignment
             cardType:playerCard.cardType,
             club:playerCard.club,
             name:playerCard.name,
@@ -18,8 +18,7 @@ export default class PlayerUseCase implements IPlayerUseCase {
     }
     public mapToCard(createCardDto : CreateCardDto) : Player {
         return {
-            id:"",
-            cardType:createCardDto.cardType,
+            cardType:createCardDto.cardType, //made createCardId to optional to avoid empty string assignment
             club:createCardDto.club,
             name:createCardDto.name,
             nation:createCardDto.nation,
@@ -42,7 +41,7 @@ export default class PlayerUseCase implements IPlayerUseCase {
     }
 
     async getPlayerById(id: string): Promise<CardDTO | null> {
-        const card = await this.getPlayerById(id)
+        const card = await this._repository.getById(id)
         if(card){
             const dto : CardDTO = this.mapToCardDto(card)
             return dto

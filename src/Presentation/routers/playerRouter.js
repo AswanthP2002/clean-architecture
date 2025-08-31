@@ -7,9 +7,9 @@ const express_1 = __importDefault(require("express"));
 const PlayerRepository_1 = __importDefault(require("../../Infrastructure/Repository/PlayerRepository"));
 const playercontroller_1 = __importDefault(require("../controllers/playercontroller"));
 const PlayerUseCase_1 = __importDefault(require("../../Application/UseCase/PlayerUseCase"));
-function PlayerRouter(db) {
+function PlayerRouter() {
     const playerRouter = express_1.default.Router();
-    const playerRepo = new PlayerRepository_1.default(db);
+    const playerRepo = new PlayerRepository_1.default();
     const playerUC = new PlayerUseCase_1.default(playerRepo);
     const playerController = new playercontroller_1.default(playerUC);
     playerRouter.get('/players', playerController.getAllPlayerCards.bind(playerController));

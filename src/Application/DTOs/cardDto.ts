@@ -1,5 +1,5 @@
 export default interface CardDTO {
-    id : string
+    id? : string
     name : string
     club : string
     nation : string

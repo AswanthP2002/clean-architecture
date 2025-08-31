@@ -21,8 +21,8 @@ function Main() {
         const app = (0, express_1.default)();
         app.use(express_1.default.urlencoded({ extended: true }));
         app.use(express_1.default.json());
-        const db = yield (0, connection_1.default)();
-        const playerRouter = (0, playerRouter_1.default)(db);
+        yield (0, connection_1.default)();
+        const playerRouter = (0, playerRouter_1.default)();
         app.use('/', playerRouter);
         app.listen(port, (err) => {
             if (err) {

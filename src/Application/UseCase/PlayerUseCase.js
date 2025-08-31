@@ -15,7 +15,7 @@ class PlayerUseCase {
     }
     mapToCardDto(playerCard) {
         return {
-            id: playerCard.id,
+            id: playerCard.id, //made Player id optional
             cardType: playerCard.cardType,
             club: playerCard.club,
             name: playerCard.name,
@@ -25,8 +25,7 @@ class PlayerUseCase {
     }
     mapToCard(createCardDto) {
         return {
-            id: "",
-            cardType: createCardDto.cardType,
+            cardType: createCardDto.cardType, //made createCardId to optional
             club: createCardDto.club,
             name: createCardDto.name,
             nation: createCardDto.nation,
@@ -48,7 +47,7 @@ class PlayerUseCase {
     }
     getPlayerById(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            const card = yield this.getPlayerById(id);
+            const card = yield this._repository.getById(id);
             if (card) {
                 const dto = this.mapToCardDto(card);
                 return dto;

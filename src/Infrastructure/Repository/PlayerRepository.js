@@ -13,27 +13,33 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importDefault(require("mongoose"));
+const player_dao_1 = require("../DAOs/player.dao");
 class PlayerRepository {
-    constructor(_db) {
-        this._db = _db;
-        this._collection = 'player';
-    }
+    // private readonly _db : Db
+    // private _collection : string
+    // constructor(_db : Db){
+    //     this._db = _db
+    //     this._collection = 'player'
+    // }
     getAll() {
         return __awaiter(this, void 0, void 0, function* () {
-            const result = yield this._db.collection(this._collection).find().toArray();
+            const result = yield player_dao_1.playerDAO.find().lean();
+            //const result = await this._db.collection<PlayerDocWithId>(this._collection).find().toArray()
             return result;
         });
     }
     getById(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            const result = yield this._db.collection(this._collection).findOne({ _id: new mongoose_1.default.Types.ObjectId(id) });
+            //const result = await this._db.collection<PlayerDocWithId>(this._collection).findOne({_id:new mongoose.Types.ObjectId(id)})
+            const result = yield player_dao_1.playerDAO.findById(new mongoose_1.default.Types.ObjectId(id));
             return result;
         });
     }
     add(player) {
         return __awaiter(this, void 0, void 0, function* () {
-            const result = yield this._db.collection(this._collection).insertOne(player);
-            return Object.assign(Object.assign({}, player), { id: result.insertedId.toString() });
+            //const result = await this._db.collection<Player>(this._collection).insertOne(player)
+            const result = yield player_dao_1.playerDAO.insertOne(player);
+            return Object.assign(Object.assign({}, player), { id: result._id.toString() });
         });
     }
 }

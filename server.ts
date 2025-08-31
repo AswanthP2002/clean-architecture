@@ -1,6 +1,7 @@
 import express from 'express'
 import PlayerRouter from './src/Presentation/routers/playerRouter'
-import connectToDb from './src/Infrastructure/Database/connection'
+import connectDb from './src/Infrastructure/Database/connection'
+
 
 const port = 5000
 
@@ -10,9 +11,9 @@ async function Main(){
     app.use(express.urlencoded({extended:true}))
     app.use(express.json())
 
-    const db = await connectToDb()
+    await connectDb()
 
-    const playerRouter = PlayerRouter(db)
+    const playerRouter = PlayerRouter()
 
     app.use('/', playerRouter)
 
