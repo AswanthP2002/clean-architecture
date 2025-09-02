@@ -13,10 +13,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importDefault(require("mongoose"));
-// const db_uri = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017'
-// const db_name = process.env.DB_NAME || 'cleandb'
 const dbUri = 'mongodb://127.0.0.1:27017/cleandb';
-// let cachedDb : Db | null = null
 const connectDb = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
         yield mongoose_1.default.connect(dbUri);
@@ -27,12 +24,3 @@ const connectDb = () => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.default = connectDb;
-// const connectToDb = async () : Promise<Db> => {
-//     if(cachedDb) return cachedDb
-//     const client = new MongoClient(db_uri)
-//     await client.connect()
-//     cachedDb = client.db(db_name)
-//     console.log(`Connected to ${db_name}`)
-//     return cachedDb
-// }
-// export default connectToDb

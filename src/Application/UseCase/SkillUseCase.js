@@ -8,30 +8,41 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-const mongoose_1 = __importDefault(require("mongoose"));
-const player_dao_1 = require("../DAOs/player.dao");
-class PlayerRepository {
-    getAll() {
+class SkillUseCase {
+    constructor(_repo) {
+        this._repo = _repo;
+    }
+    mapToSkill(dto) {
+        return {
+            skill: dto.skill,
+            playerId: dto.playerId
+        };
+    }
+    mapToSkillDto(skill) {
+        return {
+            id: skill.id,
+            playerId: skill.playerId,
+            skill: skill.skill
+        };
+    }
+    addPlayerSkill(createSkillDto) {
         return __awaiter(this, void 0, void 0, function* () {
-            const result = yield player_dao_1.playerDAO.find().lean();
-            return result;
+            console.log('upcomign requrest for add skill', createSkillDto);
+            const newSkill = this.mapToSkill(createSkillDto);
+            const result = yield this._repo.add(newSkill);
+            if (result) {
+                const dto = this.mapToSkillDto(result);
+                return dto;
+            }
+            return null;
         });
     }
-    getById(id) {
+    getSkillAggregatedData(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            const result = yield player_dao_1.playerDAO.findById(new mongoose_1.default.Types.ObjectId(id));
+            const result = yield this._repo.aggregateData(id);
             return result;
-        });
-    }
-    add(player) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const result = yield player_dao_1.playerDAO.insertOne(player);
-            return Object.assign(Object.assign({}, player), { id: result._id.toString() });
         });
     }
 }
-exports.default = PlayerRepository;
+exports.default = SkillUseCase;

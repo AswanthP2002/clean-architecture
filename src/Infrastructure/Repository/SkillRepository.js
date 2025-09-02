@@ -8,30 +8,32 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-const mongoose_1 = __importDefault(require("mongoose"));
-const player_dao_1 = require("../DAOs/player.dao");
-class PlayerRepository {
-    getAll() {
+const skill_dao_1 = require("../DAOs/skill.dao");
+class SkillRepository {
+    add(skill) {
         return __awaiter(this, void 0, void 0, function* () {
-            const result = yield player_dao_1.playerDAO.find().lean();
-            return result;
+            const result = yield skill_dao_1.SkillDAO.insertOne(skill);
+            return {
+                id: result._id.toString(),
+                playerId: result.playerId.toString(),
+                skill: result.skill
+            };
         });
     }
-    getById(id) {
+    aggregateData(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            const result = yield player_dao_1.playerDAO.findById(new mongoose_1.default.Types.ObjectId(id));
+            const result = yield skill_dao_1.SkillDAO.aggregate([
+                { $lookup: {
+                        from: 'players',
+                        localField: 'playerId',
+                        foreignField: '_id',
+                        as: 'playerDetails'
+                    } },
+                { $unwind: '$playerDetails' }
+            ]);
             return result;
-        });
-    }
-    add(player) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const result = yield player_dao_1.playerDAO.insertOne(player);
-            return Object.assign(Object.assign({}, player), { id: result._id.toString() });
         });
     }
 }
-exports.default = PlayerRepository;
+exports.default = SkillRepository;

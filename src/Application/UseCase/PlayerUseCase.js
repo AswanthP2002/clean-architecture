@@ -15,7 +15,7 @@ class PlayerUseCase {
     }
     mapToCardDto(playerCard) {
         return {
-            id: playerCard.id, //made Player id optional
+            id: playerCard.id, //made Player id optional to avoid empty string assignment
             cardType: playerCard.cardType,
             club: playerCard.club,
             name: playerCard.name,
@@ -25,7 +25,7 @@ class PlayerUseCase {
     }
     mapToCard(createCardDto) {
         return {
-            cardType: createCardDto.cardType, //made createCardId to optional
+            cardType: createCardDto.cardType, //made createCardId to optional to avoid empty string assignment
             club: createCardDto.club,
             name: createCardDto.name,
             nation: createCardDto.nation,
